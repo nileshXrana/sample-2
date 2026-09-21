@@ -1,0 +1,22 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - .:/app
+
+    env_file:
+      - .env
+
+    networks:
+      - demo-network
+
+networks:
+  demo-network:
+    external: true
