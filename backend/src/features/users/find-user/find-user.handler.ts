@@ -7,17 +7,17 @@ export class FindUserHandler {
   private readonly users = [
     {
       userId: 1,
-      username: 'john',
+      email: 'john@example.com',
       password: 'changeme',
     },
     {
       userId: 2,
-      username: 'maria',
+      email: 'maria@example.com',
       password: 'guess',
     },
   ];
 
-  async execute(username: string) {
-    return this.users.find((user) => user.username === username);
+  async execute(email: string) {
+    return this.users.find((user) => user.email === email);
   }
 }

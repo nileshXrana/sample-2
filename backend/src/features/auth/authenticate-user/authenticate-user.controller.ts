@@ -1,7 +1,15 @@
-import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  HttpCode,
+  HttpStatus,
+  Res,
+} from '@nestjs/common';
 import { AuthenticateUserHandler } from './authenticate-user.handler';
 import { Public } from 'src/infrastructure/decorators/public.decorator';
 import { AuthenticateUserValidator } from './authenticate-user.validator';
+import type { Response } from 'express';
 
 @Controller('auth')
 export class AuthenticateUserController {
@@ -12,7 +20,21 @@ export class AuthenticateUserController {
   @HttpCode(HttpStatus.OK)
   @Public()
   @Post('login')
-  login(@Body() authenticateUser: AuthenticateUserValidator) {
-    return this.authenticateUserHandler.execute(authenticateUser);
+  async login(
+    @Body() authenticateUser: AuthenticateUserValidator,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const token = await this.authenticateUserHandler.execute(authenticateUser);
+
+    response.cookie('access_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+    });
+
+    return {
+      message: 'Logged in successfully',
+      statusCode: 200,
+    };
   }
 }
