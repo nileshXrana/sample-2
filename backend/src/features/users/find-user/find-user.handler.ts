@@ -17,7 +17,7 @@ export class FindUserHandler {
     },
   ];
 
-  async findUser(username: string) {
+  async execute(username: string) {
     return this.users.find((user) => user.username === username);
   }
 }

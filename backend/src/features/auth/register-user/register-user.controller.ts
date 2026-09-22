@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { RegisterUserHandler } from './register-user.handler';
 import { Public } from 'src/infrastructure/decorators/public.decorator';
+import { RegisterUserValidator } from './register-user.validator';
 
 @Controller('auth')
 export class RegisterUserController {
@@ -8,10 +9,7 @@ export class RegisterUserController {
 
   @Public()
   @Post('register')
-  register(@Body() registerDto: Record<string, any>) {
-    return this.registerUserHandler.register(
-      registerDto.username,
-      registerDto.password,
-    );
+  register(@Body() registerUser: RegisterUserValidator) {
+    return this.registerUserHandler.execute(registerUser);
   }
 }
