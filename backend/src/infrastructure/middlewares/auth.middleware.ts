@@ -11,7 +11,7 @@ export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly jwtService: JwtService) {}
 
   async use(request: Request, response: Response, next: NextFunction) {
-    const token = this.extractTokenFromHeader(request);
+    const token = request.cookies?.access_token;
 
     if (!token) {
       throw new UnauthorizedException();
@@ -29,11 +29,5 @@ export class AuthMiddleware implements NestMiddleware {
     } catch {
       throw new UnauthorizedException();
     }
-  }
-
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-
-    return type === 'Bearer' ? token : undefined;
   }
 }
