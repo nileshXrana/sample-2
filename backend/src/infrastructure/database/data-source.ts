@@ -1,6 +1,7 @@
 import { DataSource, type DataSourceOptions } from 'typeorm';
+import { SeederOptions } from 'typeorm-extension';
 
-export const dataSourceOptions: DataSourceOptions = {
+export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   host: process.env.POSTGRES_HOST,
   port: Number(process.env.POSTGRES_PORT),
@@ -11,6 +12,8 @@ export const dataSourceOptions: DataSourceOptions = {
   entities: [__dirname + '/entities/*.{ts,js}'],
 
   migrations: [__dirname + '/migrations/*.{ts,js}'],
+
+  seeds: [__dirname + '/seeds/*.{ts,js}'],
 
   synchronize: false,
 };
