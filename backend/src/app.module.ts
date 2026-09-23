@@ -13,6 +13,8 @@ import { AuthMiddleware } from './infrastructure/middlewares/auth.middleware';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from './features/users/users.module';
 import { AuthModule } from './features/auth/auth.module';
+import { RolesGuard } from './infrastructure/guards/roles.guard';
+import { APP_GUARD } from '@nestjs/core/constants';
 
 @Module({
   imports: [
@@ -29,18 +31,19 @@ import { AuthModule } from './features/auth/auth.module';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-    .apply(AuthMiddleware)
-    .exclude()
-    .forRoutes(
-      {
-        path: 'users/me',
-        method: RequestMethod.GET,
-      },
-    );
+    consumer.apply(AuthMiddleware).exclude().forRoutes({
+      path: 'users/me',
+      method: RequestMethod.GET,
+    });
   }
 }
