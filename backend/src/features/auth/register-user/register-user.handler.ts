@@ -1,16 +1,12 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { RegisterUserValidator } from './register-user.validator';
+import { CreateUserHandler } from 'src/features/users/create-user/create-user.handler';
 
 @Injectable()
 export class RegisterUserHandler {
-  constructor() {}
+  constructor(private readonly createUserHandler: CreateUserHandler) {}
 
   async execute(registerUser: RegisterUserValidator) {
-    const { email, password } = registerUser;
-
-    return {
-      message: `User ${email} registered successfully`,
-      statusCode: 201,
-    };
+    return await this.createUserHandler.execute(registerUser);
   }
 }

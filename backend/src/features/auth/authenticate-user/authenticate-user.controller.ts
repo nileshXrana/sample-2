@@ -7,7 +7,6 @@ import {
   Res,
 } from '@nestjs/common';
 import { AuthenticateUserHandler } from './authenticate-user.handler';
-import { Public } from 'src/infrastructure/decorators/public.decorator';
 import { AuthenticateUserValidator } from './authenticate-user.validator';
 import type { Response } from 'express';
 
@@ -18,13 +17,13 @@ export class AuthenticateUserController {
   ) {}
 
   @HttpCode(HttpStatus.OK)
-  @Public()
   @Post('login')
   async login(
     @Body() authenticateUser: AuthenticateUserValidator,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const token = await this.authenticateUserHandler.execute(authenticateUser);
+    const { token, id, email } =
+      await this.authenticateUserHandler.execute(authenticateUser);
 
     response.cookie('access_token', token, {
       httpOnly: true,
@@ -33,8 +32,8 @@ export class AuthenticateUserController {
     });
 
     return {
-      message: 'Logged in successfully',
-      statusCode: 200,
+      id: id,
+      email: email,
     };
   }
 }

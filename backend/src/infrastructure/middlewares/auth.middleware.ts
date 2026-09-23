@@ -14,7 +14,7 @@ export class AuthMiddleware implements NestMiddleware {
     const token = request.cookies?.access_token;
 
     if (!token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Authentication failed');
     }
 
     try {
@@ -27,7 +27,7 @@ export class AuthMiddleware implements NestMiddleware {
       // Continue to the next middleware/controller
       next();
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Authentication failed');
     }
   }
 }

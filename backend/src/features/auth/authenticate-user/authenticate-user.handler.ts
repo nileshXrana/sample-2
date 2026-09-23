@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { FindUserHandler } from '../../users/find-user/find-user.handler';
 import { AuthenticateUserValidator } from './authenticate-user.validator';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthenticateUserHandler {
@@ -15,12 +16,21 @@ export class AuthenticateUserHandler {
 
     const user = await this.findUserHandler.execute(email);
 
-    if (!user || user.password !== password) {
-      throw new UnauthorizedException();
+    if (user) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        throw new UnauthorizedException('Invalid Password');
+      }
+
+      const payload = { id: user.id, email: user.email };
+      const token = await this.jwtService.signAsync(payload);
+      return {
+        token: token,
+        id: user.id,
+        email: user.email,
+      };
+    } else {
+      throw new UnauthorizedException('Invalid Email');
     }
-
-    const payload = { userId: user.userId, email: user.email };
-    return await this.jwtService.signAsync(payload);
-
   }
 }

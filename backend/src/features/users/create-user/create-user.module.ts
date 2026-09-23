@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { FindUserHandler } from './find-user.handler';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CreateUserHandler } from './create-user.handler';
 import { User } from 'src/infrastructure/database/entities/users.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
-  providers: [FindUserHandler],
-  exports: [FindUserHandler],
+  providers: [CreateUserHandler],
+  exports: [CreateUserHandler],
 })
-export class FindUserModule {}
+export class CreateUserModule {}
