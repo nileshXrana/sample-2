@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/infrastructure/database/entities/users.entity';
+import { User } from 'src/domain/entities/users.entity';
 
 @Injectable()
 export class FindUserHandler {

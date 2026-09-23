@@ -2,7 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserValidator } from './create-user.validator';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/infrastructure/database/entities/users.entity';
+import { User } from 'src/domain/entities/users.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
