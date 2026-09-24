@@ -41,7 +41,10 @@ import { APP_GUARD } from '@nestjs/core/constants';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).exclude().forRoutes({
+    consumer
+    .apply(AuthMiddleware)
+    .exclude()
+    .forRoutes({
       path: 'users/me',
       method: RequestMethod.GET,
     });
