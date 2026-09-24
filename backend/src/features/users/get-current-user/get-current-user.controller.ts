@@ -8,7 +8,7 @@ import { Roles } from 'src/infrastructure/decorators/roles.decorator';
 export class GetCurrentUserController {
   constructor(private readonly getCurrentUserHandler: GetCurrentUserHandler) {}
 
-  @Roles(Role.User)
+  @Roles(Role.Admin)
   @Get('me')
   getCurrentUser(@Req() req: AuthenticatedRequest) {
     return this.getCurrentUserHandler.execute(req.user.id);
