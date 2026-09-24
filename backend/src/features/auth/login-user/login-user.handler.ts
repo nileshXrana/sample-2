@@ -22,8 +22,7 @@ export class LoginUserHandler {
         throw new UnauthorizedException('Invalid Password');
       }
 
-      const userRoles = ['user', 'admin'];
-      const payload = { id: user.id, email: user.email, roles: userRoles };
+      const payload = { id: user.id };
       const token = await this.jwtService.signAsync(payload);
       return {
         token: token,
