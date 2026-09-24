@@ -6,24 +6,21 @@ import {
   HttpStatus,
   Res,
 } from '@nestjs/common';
-import { AuthenticateUserHandler } from './authenticate-user.handler';
-import { AuthenticateUserValidator } from './authenticate-user.validator';
+import { LoginUserHandler } from './login-user.handler';
+import { LoginUserValidator } from './login-user.validator';
 import type { Response } from 'express';
 
 @Controller('auth')
-export class AuthenticateUserController {
-  constructor(
-    private readonly authenticateUserHandler: AuthenticateUserHandler,
-  ) {}
+export class LoginUserController {
+  constructor(private readonly loginUserHandler: LoginUserHandler) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(
-    @Body() authenticateUser: AuthenticateUserValidator,
+    @Body() loginUser: LoginUserValidator,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const { token, id, email } =
-      await this.authenticateUserHandler.execute(authenticateUser);
+    const { token, id, email } = await this.loginUserHandler.execute(loginUser);
 
     response.cookie('access_token', token, {
       httpOnly: true,

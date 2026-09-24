@@ -1,18 +1,18 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { FindUserHandler } from '../../users/find-user/find-user.handler';
-import { AuthenticateUserValidator } from './authenticate-user.validator';
+import { LoginUserValidator } from './login-user.validator';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class AuthenticateUserHandler {
+export class LoginUserHandler {
   constructor(
     private jwtService: JwtService,
     private readonly findUserHandler: FindUserHandler,
   ) {}
 
-  async execute(authenticateUser: AuthenticateUserValidator) {
-    const { email, password } = authenticateUser;
+  async execute(loginUser: LoginUserValidator) {
+    const { email, password } = loginUser;
 
     const user = await this.findUserHandler.execute(email);
 
