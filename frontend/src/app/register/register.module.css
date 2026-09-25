@@ -1,0 +1,119 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f3f2f0;
+  font-family:
+    -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  font-size: 30px !important;
+  font-weight: 600 !important;
+  color: rgba(0, 0, 0, 0.815) !important;
+  margin: 0 0 24px 0;
+  text-align: left !important;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formDescription {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.errorMessage {
+  color: #cc1016;
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: left;
+}
+
+.inputGroup {
+  margin: 8px 0 !important;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 6px;
+}
+
+.submitButton {
+  background-color: #0a66c2;
+  color: #ffffff;
+  border: none;
+  border-radius: 28px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: none;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.submitButton:hover {
+  background-color: #004182;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.856) !important;
+  font-size: 14px;
+  margin: 16px 0 !important;
+  width: 100%;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.divider::before {
+  margin-right: 16px;
+}
+
+.divider::after {
+  margin-left: 16px;
+}
+
+.signinText {
+  margin: 10px !important;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.9);
+  text-align: center;
+}
+
+.link {
+  color: #0a66c2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

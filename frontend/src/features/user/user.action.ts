@@ -1,75 +1,75 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { login, register, logout, getUser } from '@/services/auth.service';
-import { loginFormData, signupFormData } from './user.type';
-import { getUsers } from '@/services/user.service';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  login,
+  register,
+  logout,
+  getCurrentUser,
+} from "@/services/user.service";
+import { loginRequest, registerRequest } from "./user.type";
+import axios from "axios";
 
 export const loginThunk = createAsyncThunk(
-    'auth/login',
-    async (user: loginFormData, { rejectWithValue }) => {
-        try {
-            const res = await login(user);
-            if (res?.error) {
-                return rejectWithValue(res.error);
-            }
-            return res;
-        } catch (error: any) {
-            return rejectWithValue(error);
-        }
+  "auth/login",
+  async (user: loginRequest, { rejectWithValue }) => {
+    try {
+      return await login(user);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data?.message ?? "Login failed");
+      }
+
+      return rejectWithValue("Something went wrong");
     }
+  },
 );
 
 export const registerThunk = createAsyncThunk(
-    'auth/register',
-    async (user: signupFormData, { rejectWithValue }) => {
-        try {
-            const res = await register(user);
-            if (res?.error) {
-                return rejectWithValue(res.error);
-            }
-            return res;
-        } catch (error: any) {
-            return rejectWithValue(error);
-        }
+  "auth/register",
+  async (user: registerRequest, { rejectWithValue }) => {
+    try {
+      return await register(user);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message ?? "Registration failed",
+        );
+      }
+
+      return rejectWithValue("Something went wrong");
     }
+  },
 );
 
 export const logoutThunk = createAsyncThunk(
-    'auth/logout',
-    async (_, { rejectWithValue }) => {
-        try {
-            const res = await logout();
-            if (res?.error) {
-                return rejectWithValue(res.error);
-            }
-            return res;
-        } catch (error: any) {
-            return rejectWithValue(error);
-        }
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      return await logout();
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message ?? "Logout failed",
+        );
+      }
+
+      return rejectWithValue("Something went wrong");
     }
+  },
 );
 
+export const getCurrentUserThunk = createAsyncThunk(
+  "users/getCurrentUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      return await getCurrentUser();
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message ?? "Failed to get current user",
+        );
+      }
 
-export const getUsersThunk = createAsyncThunk(
-    'auth/getUsers',
-    async (_, { rejectWithValue }) => {
-        try {
-            const res = await getUsers();
-            return res;
-        } catch (error: any) {
-            return rejectWithValue(error);
-        }
+      return rejectWithValue("Something went wrong");
     }
-);
-
-
-export const getUserThunk = createAsyncThunk(
-    'auth/getUser',
-    async (_, { rejectWithValue }) => {
-        try {
-            const res = await getUser();
-            return res;
-        } catch (error: any) {
-            return rejectWithValue(error);
-        }
-    }
+  },
 );
